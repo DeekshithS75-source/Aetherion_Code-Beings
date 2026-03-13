@@ -20,13 +20,16 @@ export default function StudentLogin() {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/student-login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const res = await fetch(
+        "${import.meta.env.VITE_API_URL}/api/auth/student-login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(form),
         },
-        body: JSON.stringify(form),
-      });
+      );
 
       const data = await res.json();
 

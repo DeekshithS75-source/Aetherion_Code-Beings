@@ -7,7 +7,7 @@ export default function VivaList() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/viva/ongoing")
+    fetch("${import.meta.env.VITE_API_URL}/api/viva/ongoing")
       .then((res) => res.json())
       .then((data) => setVivas(data));
   }, []);

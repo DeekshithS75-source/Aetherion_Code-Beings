@@ -32,7 +32,7 @@ export default function VivaPage() {
 
   // ── 1. Fetch viva config on mount ─────────────────────────────────────────
   useEffect(() => {
-    fetch(`http://localhost:5000/api/viva/${subject}`)
+    fetch(`${import.meta.env.VITE_API_URL}/api/viva/${subject}`)
       .then((res) => res.json())
       .then((data) => {
         setVivaConfig(data);
@@ -40,7 +40,12 @@ export default function VivaPage() {
       })
       .catch(() => {
         // If config fetch fails fall back to a safe default
-        setVivaConfig({ numberOfQuestions: 5, totalMarks: 10, timeLimit: 10, _id: null });
+        setVivaConfig({
+          numberOfQuestions: 5,
+          totalMarks: 10,
+          timeLimit: 10,
+          _id: null,
+        });
         setTimeLeft(10 * 60);
       });
   }, [subject]);
@@ -113,7 +118,9 @@ export default function VivaPage() {
 
   // ── Helpers ───────────────────────────────────────────────────────────────
   const formatTime = (seconds) => {
-    const m = Math.floor(seconds / 60).toString().padStart(2, "0");
+    const m = Math.floor(seconds / 60)
+      .toString()
+      .padStart(2, "0");
     const s = (seconds % 60).toString().padStart(2, "0");
     return `${m}:${s}`;
   };
@@ -144,7 +151,7 @@ export default function VivaPage() {
     const studentId = localStorage.getItem("userId");
     const vivaId = vivaConfig?._id;
 
-    fetch("http://localhost:5000/api/viva/complete", {
+    fetch("${import.meta.env.VITE_API_URL}/api/viva/complete", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -209,18 +216,25 @@ export default function VivaPage() {
     return (
       <div className="min-h-screen bg-gray-100 flex justify-center items-center">
         <div className="bg-white p-10 rounded-xl shadow w-96 text-center">
-          <h2 className="text-2xl font-bold mb-6 text-green-600">Viva Complete! 🎉</h2>
+          <h2 className="text-2xl font-bold mb-6 text-green-600">
+            Viva Complete! 🎉
+          </h2>
 
           <div className="mb-4">
             <p className="text-gray-500 text-sm">Score</p>
             <p className="text-4xl font-bold text-blue-600">
-              {score} <span className="text-xl text-gray-400">/ {vivaConfig?.totalMarks ?? "?"}</span>
+              {score}{" "}
+              <span className="text-xl text-gray-400">
+                / {vivaConfig?.totalMarks ?? "?"}
+              </span>
             </p>
           </div>
 
           <div className="mb-6">
             <p className="text-gray-500 text-sm">Highest Difficulty Reached</p>
-            <p className="text-2xl font-bold text-purple-600">{highestDifficulty} / 5</p>
+            <p className="text-2xl font-bold text-purple-600">
+              {highestDifficulty} / 5
+            </p>
           </div>
 
           {!resultSaved && (
@@ -252,7 +266,6 @@ export default function VivaPage() {
   // ── Main viva UI ──────────────────────────────────────────────────────────
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-center relative select-none">
-
       {/* Anti-Cheat Warning Modal Overlay */}
       {showWarning && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 backdrop-blur-sm">
@@ -260,10 +273,12 @@ export default function VivaPage() {
             <div className="text-6xl mb-4">⚠️</div>
             <h2 className="text-2xl font-bold text-red-600 mb-2">Warning!</h2>
             <p className="text-gray-700 mb-4 font-medium">
-              You switched tabs or left the exam window. This action is recorded.
+              You switched tabs or left the exam window. This action is
+              recorded.
             </p>
             <p className="text-xs text-gray-500 mb-6 font-bold uppercase tracking-wider">
-              Violations so far: <span className="text-red-600">{warningCount}</span>
+              Violations so far:{" "}
+              <span className="text-red-600">{warningCount}</span>
             </p>
             <button
               onClick={() => setShowWarning(false)}
@@ -276,7 +291,6 @@ export default function VivaPage() {
       )}
 
       <div className="bg-white p-8 rounded-xl shadow w-[28rem]">
-
         {/* Header row: progress + timer */}
         <div className="flex justify-between items-center mb-4">
           <span className="text-sm font-semibold text-gray-500">
@@ -284,10 +298,11 @@ export default function VivaPage() {
           </span>
           {timeLeft !== null && (
             <span
-              className={`text-sm font-bold px-3 py-1 rounded-full ${timeLeft <= 60
-                ? "bg-red-100 text-red-600"
-                : "bg-blue-100 text-blue-600"
-                }`}
+              className={`text-sm font-bold px-3 py-1 rounded-full ${
+                timeLeft <= 60
+                  ? "bg-red-100 text-red-600"
+                  : "bg-blue-100 text-blue-600"
+              }`}
             >
               ⏱ {formatTime(timeLeft)}
             </span>

@@ -36,7 +36,7 @@ export default function CreateViva() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await fetch("http://localhost:5000/api/viva/create", {
+    const res = await fetch("${import.meta.env.VITE_API_URL}/api/viva/create", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -61,14 +61,21 @@ export default function CreateViva() {
   };
 
   const handleDelete = async (id, subject) => {
-    if (!window.confirm(`Are you sure you want to delete the viva for ${subject}? This will also remove it from the students' dashboard.`)) {
+    if (
+      !window.confirm(
+        `Are you sure you want to delete the viva for ${subject}? This will also remove it from the students' dashboard.`,
+      )
+    ) {
       return;
     }
 
     try {
-      const res = await fetch(`http://localhost:5000/api/viva/${id}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/viva/${id}`,
+        {
+          method: "DELETE",
+        },
+      );
 
       if (res.ok) {
         setVivas(vivas.filter((viva) => viva._id !== id));
@@ -137,13 +144,20 @@ export default function CreateViva() {
       <div className="w-full max-w-2xl">
         <h2 className="text-2xl font-bold mb-4">Manage Active Vivas</h2>
         {vivas.length === 0 ? (
-          <p className="text-gray-500 bg-white p-4 rounded-xl shadow text-center">No vivas currently active.</p>
+          <p className="text-gray-500 bg-white p-4 rounded-xl shadow text-center">
+            No vivas currently active.
+          </p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {vivas.map((viva) => (
-              <div key={viva._id} className="bg-white p-5 rounded-xl shadow flex flex-col justify-between">
+              <div
+                key={viva._id}
+                className="bg-white p-5 rounded-xl shadow flex flex-col justify-between"
+              >
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-800">{viva.subject}</h3>
+                  <h3 className="text-lg font-semibold text-gray-800">
+                    {viva.subject}
+                  </h3>
                   <div className="text-sm text-gray-500 mt-2 space-y-1">
                     <p>Questions: {viva.numberOfQuestions}</p>
                     <p>Total Marks: {viva.totalMarks}</p>
