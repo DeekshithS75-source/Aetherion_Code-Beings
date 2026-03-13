@@ -36,7 +36,7 @@ exports.generateQuestion = async (req, res) => {
     const { topic, difficulty } = req.body;
 
     const response = await fetch(
-      "https://your-ai-service.onrender.com/generate-question",
+      "https://aetherion-code-beings-ai.onrender.com",
       {
         method: "POST",
         headers: {
