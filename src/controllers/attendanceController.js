@@ -3,11 +3,21 @@ const User = require("../models/User");
 
 const twilio = require("twilio");
 
-const client = twilio(process.env.TWILIO_SID, process.env.TWILIO_TOKEN);
+const twilioSid = process.env.TWILIO_SID;
+const twilioToken = process.env.TWILIO_TOKEN;
+
+// Only instantiate Twilio if real credentials are provided
+const isTwilioConfigured =
+  twilioSid &&
+  twilioToken &&
+  twilioSid !== "your_twilio_sid_here" &&
+  twilioToken !== "your_twilio_token_here";
+
+const client = isTwilioConfigured ? twilio(twilioSid, twilioToken) : null;
 
 exports.markAttendance = async (req, res) => {
   try {
-    const { className, classType, date, time, absentees } = req.body;
+    const { className, eventType, date, time, absentees } = req.body;
 
     const students = await User.find({ role: "student" });
 
@@ -23,7 +33,7 @@ exports.markAttendance = async (req, res) => {
       const record = {
         usn: student.usn,
         className,
-        classType,
+        eventType,
         date,
         time,
         present: !isAbsent,
@@ -33,19 +43,20 @@ exports.markAttendance = async (req, res) => {
 
       // Send SMS if absent
       if (isAbsent && student.parentPhone) {
-        const sms = await client.messages.create({
-          body: `EduSphere Alert
-
-Your ward ${student.name} (${student.usn}) was ABSENT.
-
-Class: ${className}
-Date: ${date}
-Time: ${time}`,
-          from: process.env.TWILIO_PHONE,
-          to: student.parentPhone,
-        });
-
-        console.log("SMS sent:", sms.sid);
+        if (!isTwilioConfigured) {
+          console.log(`[Twilio Not Configured] Would have sent SMS to ${student.parentPhone} for ${student.name}`);
+        } else {
+          try {
+            const sms = await client.messages.create({
+              body: `EduSphere Alert\n\nYour ward ${student.name} (${student.usn}) was ABSENT.\n\nClass: ${className}\nDate: ${date}\nTime: ${time}`,
+              from: process.env.TWILIO_PHONE,
+              to: student.parentPhone,
+            });
+            console.log("SMS sent:", sms.sid);
+          } catch (smsError) {
+            console.error("Twilio explicitly failed:", smsError.message);
+          }
+        }
       }
     }
 
@@ -61,5 +72,42 @@ Time: ${time}`,
       success: false,
       error: error.message,
     });
+  }
+};
+
+// 2. Fetch all attendance records (for Teacher Dashboard)
+exports.getAllAttendance = async (req, res) => {
+  try {
+    const records = await Attendance.find()
+      .sort({ date: -1, time: -1 });
+
+    // Retrieve user details to attach real names inline
+    const users = await User.find({ role: 'student' }).select('usn name');
+    const userMap = {};
+    users.forEach(user => {
+      userMap[user.usn] = user.name;
+    });
+
+    const recordsWithNames = records.map(record => ({
+      ...record._doc,
+      studentName: userMap[record.usn] || 'Unknown',
+    }));
+
+    res.json(recordsWithNames);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// 3. Fetch personal attendance records (for Student Dashboard)
+exports.getStudentAttendance = async (req, res) => {
+  try {
+    const { usn } = req.params;
+    const records = await Attendance.find({ usn })
+      .sort({ date: -1, time: -1 });
+
+    res.json(records);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };

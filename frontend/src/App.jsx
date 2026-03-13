@@ -12,6 +12,10 @@ import AttendancePage from "./pages/AttendancePage";
 import VivaList from "./pages/VivaList";
 import VivaPage from "./pages/VivaPage";
 import CreateViva from "./pages/CreateViva";
+import TeacherAssignments from "./pages/TeacherAssignments";
+import StudentAssignments from "./pages/StudentAssignments";
+import TeacherAttendanceView from "./pages/TeacherAttendanceView";
+import StudentAttendance from "./pages/StudentAttendance";
 
 function App() {
   return (
@@ -25,9 +29,13 @@ function App() {
         <Route path="/add-student" element={<AddStudent />} />
         <Route path="/student-dashboard" element={<StudentDashboard />} />
         <Route path="/attendance" element={<AttendancePage />} />
+        <Route path="/teacher-attendance-view" element={<TeacherAttendanceView />} />
+        <Route path="/student-attendance" element={<StudentAttendance />} />
         <Route path="/vivas" element={<VivaList />} />
         <Route path="/viva/:subject" element={<VivaPage />} />
         <Route path="/create-viva" element={<CreateViva />} />
+        <Route path="/assignments" element={<TeacherAssignments />} />
+        <Route path="/student-assignments" element={<StudentAssignments />} />
       </Routes>
     </BrowserRouter>
   );

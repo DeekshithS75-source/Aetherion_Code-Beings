@@ -11,9 +11,9 @@ const AttendanceSchema = new mongoose.Schema({
     required: true,
   },
 
-  classType: {
+  eventType: {
     type: String,
-    enum: ["normal", "workshop", "bootcamp"],
+    enum: ["Class", "Lab", "Workshop", "Bootcamp", "Seminar"],
     required: true,
   },
 

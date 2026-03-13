@@ -5,9 +5,11 @@ const VivaSchema = new mongoose.Schema({
 
   type: String,
 
-  totalQuestions: Number,
+  numberOfQuestions: Number,
 
   marksPerQuestion: Number,
+
+  totalMarks: Number,
 
   timeLimit: Number,
 

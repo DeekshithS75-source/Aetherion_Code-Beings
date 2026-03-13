@@ -1,13 +1,16 @@
 import { useState } from "react";
 
+const EVENT_TYPES = ["Class", "Lab", "Workshop", "Bootcamp", "Seminar"];
+
 export default function AttendancePage() {
   const [form, setForm] = useState({
     className: "",
-    classType: "normal",
     date: "",
     time: "",
     absentees: "",
   });
+
+  const [eventType, setEventType] = useState("Class");
 
   const handleChange = (e) => {
     setForm({
@@ -29,7 +32,7 @@ export default function AttendancePage() {
         },
         body: JSON.stringify({
           className: form.className,
-          classType: form.classType,
+          eventType,
           date: form.date,
           time: form.time,
           absentees: absenteesArray,
@@ -63,15 +66,25 @@ export default function AttendancePage() {
             required
           />
 
-          <select
-            name="classType"
-            className="w-full border p-2 rounded mb-4"
-            onChange={handleChange}
-          >
-            <option value="normal">Normal Class</option>
-            <option value="workshop">Workshop</option>
-            <option value="bootcamp">Bootcamp</option>
-          </select>
+          {/* Event type pills */}
+          <div className="mb-4">
+            <p className="text-sm text-gray-500 mb-2">Event Type</p>
+            <div className="flex flex-wrap gap-2">
+              {EVENT_TYPES.map((type) => (
+                <button
+                  key={type}
+                  type="button"
+                  onClick={() => setEventType(type)}
+                  className={`px-4 py-1.5 rounded-full text-sm font-medium border transition ${eventType === type
+                      ? "bg-blue-600 text-white border-blue-600"
+                      : "bg-white text-gray-600 border-gray-300 hover:border-blue-400 hover:text-blue-600"
+                    }`}
+                >
+                  {type}
+                </button>
+              ))}
+            </div>
+          </div>
 
           <input
             name="date"

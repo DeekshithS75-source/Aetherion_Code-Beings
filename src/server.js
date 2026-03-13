@@ -12,6 +12,14 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/attendance", attendanceRoutes);
 app.use("/api/viva", vivaRoutes);
+
+const assignmentRoutes = require("./routes/assignmentRoutes");
+app.use("/api/assignment", assignmentRoutes);
+
+// Serve uploads statically
+const path = require("path");
+app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
+
 // Test route
 app.get("/", (req, res) => {
   res.send("Backend server is running");

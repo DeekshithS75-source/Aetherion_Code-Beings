@@ -42,6 +42,8 @@ export default function TeacherLogin() {
       }
 
       if (res.ok) {
+        localStorage.setItem("userId", data.userId);
+        localStorage.setItem("role", data.role);
         navigate("/teacher-dashboard");
       } else {
         alert(data.message || "Login failed");

@@ -2,51 +2,46 @@ import { Link } from "react-router-dom";
 
 export default function Login() {
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center">
-      {/* Logo Top Center */}
-      <div className="flex items-center gap-2 mt-10">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="currentColor"
-          className="w-8 h-8 text-blue-600"
-        >
-          <path d="M11.7 2.805a.75.75 0 0 1 .6 0A60.65 60.65 0 0 1 22.83 8.72a.75.75 0 0 1-.231 1.337 49.948 49.948 0 0 0-9.902 3.912l-.003.002c-.114.06-.227.119-.34.18a.75.75 0 0 1-.707 0A50.88 50.88 0 0 0 7.5 12.173v-.224c0-.131.067-.248.172-.311a54.615 54.615 0 0 1 4.653-2.52.75.75 0 0 0-.65-1.352 56.123 56.123 0 0 0-4.78 2.589 1.858 1.858 0 0 0-.859 1.228 49.803 49.803 0 0 0-4.634-1.527.75.75 0 0 1-.231-1.337A60.653 60.653 0 0 1 11.7 2.805Z" />
-          <path d="M13.06 15.473a48.45 48.45 0 0 1 7.666-3.282c.134 1.414.22 2.843.255 4.284a.75.75 0 0 1-.46.711 47.87 47.87 0 0 0-8.105 4.342.75.75 0 0 1-.832 0 47.87 47.87 0 0 0-8.104-4.342.75.75 0 0 1-.461-.71c.035-1.442.121-2.87.255-4.286.921.304 1.83.634 2.726.99v1.27a1.5 1.5 0 0 0-.14 2.508c-.09.38-.222.753-.397 1.11.452.213.901.434 1.346.66a6.727 6.727 0 0 0 .551-1.607 1.5 1.5 0 0 0 .14-2.67v-.645a48.549 48.549 0 0 1 3.44 1.667 2.25 2.25 0 0 0 2.12 0Z" />
-          <path d="M4.462 19.462c.42-.419.753-.89 1-1.395.453.214.902.435 1.347.662a6.742 6.742 0 0 1-1.286 1.794.75.75 0 0 1-1.06-1.06Z" />
-        </svg>
-
-        <span className="text-2xl font-bold text-gray-800">EduSphere</span>
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-4 animate-fade-in">
+      <div className="text-center mb-12 animate-slide-up">
+        <h1 className="text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">
+          Welcome to <span className="text-gradient">EduSphere</span>
+        </h1>
+        <p className="text-gray-600 text-lg max-w-lg mx-auto">
+          The all-in-one AI powered platform for teachers and students.
+        </p>
       </div>
 
-      {/* Hero Section */}
-      <div className="flex flex-1 items-center justify-center text-center px-6 ">
-        <div className="max-w-2xl">
-          <h1 className="text-4xl font-bold text-gray-900 mb-20">
-            AI‑Assisted Campus Management Platform
-          </h1>
-
-          <p className="text-gray-600 mb-8">
-            Manage attendance, assignments and academic activities efficiently
-            with an intelligent platform designed for teachers and students.
+      <div className="flex gap-8 max-w-4xl w-full justify-center flex-wrap">
+        {/* Teacher Login Card */}
+        <Link
+          to="/teacher-login"
+          className="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 p-10 flex flex-col items-center flex-1 min-w-[300px] animate-slide-up delay-100 group"
+        >
+          <div className="text-7xl mb-6 group-hover:scale-110 transition-transform">👨‍🏫</div>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">Teacher</h2>
+          <p className="text-gray-500 text-center">
+            Login to manage classes, take vivas, and grade assignments.
           </p>
-
-          <div className="flex justify-center gap-4">
-            <Link
-              to="/student-login"
-              className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
-            >
-              Student Login
-            </Link>
-
-            <Link
-              to="/teacher-login"
-              className="bg-gray-800 text-white px-6 py-3 rounded-lg hover:bg-gray-900 transition"
-            >
-              Teacher Login
-            </Link>
+          <div className="mt-6 px-6 py-2 bg-blue-50 text-blue-600 rounded-full font-semibold group-hover:bg-blue-600 group-hover:text-white transition">
+            Continue as Teacher &rarr;
           </div>
-        </div>
+        </Link>
+
+        {/* Student Login Card */}
+        <Link
+          to="/student-login"
+          className="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition duration-300 transform hover:-translate-y-2 p-10 flex flex-col items-center flex-1 min-w-[300px] animate-slide-up delay-200 group"
+        >
+          <div className="text-7xl mb-6 group-hover:scale-110 transition-transform">👨‍🎓</div>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">Student</h2>
+          <p className="text-gray-500 text-center">
+            Login to take vivas, view your attendance, and upload assignments.
+          </p>
+          <div className="mt-6 px-6 py-2 bg-green-50 text-green-600 rounded-full font-semibold group-hover:bg-green-600 group-hover:text-white transition">
+            Continue as Student &rarr;
+          </div>
+        </Link>
       </div>
     </div>
   );

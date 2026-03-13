@@ -35,6 +35,8 @@ export default function StudentLogin() {
 
         // optionally store student data
         localStorage.setItem("student", JSON.stringify(data));
+        localStorage.setItem("userId", data.userId);
+        localStorage.setItem("role", data.role);
 
         navigate("/student-dashboard");
       } else {
