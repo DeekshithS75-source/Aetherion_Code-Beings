@@ -23,7 +23,7 @@ export default function AddStudent() {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:5000/api/auth/add-student", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/viva/start`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
