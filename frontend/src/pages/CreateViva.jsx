@@ -16,7 +16,7 @@ export default function CreateViva() {
 
   const fetchVivas = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/viva/ongoing");
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/viva/start`);
       if (res.ok) {
         const data = await res.json();
         setVivas(data);
