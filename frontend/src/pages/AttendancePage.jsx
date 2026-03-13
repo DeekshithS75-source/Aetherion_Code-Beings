@@ -25,7 +25,7 @@ export default function AttendancePage() {
     try {
       const absenteesArray = form.absentees.split(",").map((a) => a.trim());
 
-      const res = await fetch("http://localhost:5000/api/attendance/mark", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/viva/start`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
