@@ -36,7 +36,7 @@ export default function CreateViva() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await fetch("${import.meta.env.VITE_API_URL}/api/viva/create", {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/viva/create`,  {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
