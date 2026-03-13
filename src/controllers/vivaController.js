@@ -1,3 +1,4 @@
+const fetch = require("node-fetch");
 const Viva = require("../models/Viva");
 const VivaResult = require("../models/VivaResult");
 
@@ -23,6 +24,34 @@ exports.createViva = async (req, res) => {
       message: "Viva created successfully",
       viva,
     });
+  } catch (error) {
+    res.status(500).json({
+      error: error.message,
+    });
+  }
+};
+
+exports.generateQuestion = async (req, res) => {
+  try {
+    const { topic, difficulty } = req.body;
+
+    const response = await fetch(
+      "https://your-ai-service.onrender.com/generate-question",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          topic,
+          difficulty,
+        }),
+      }
+    );
+
+    const data = await response.json();
+
+    res.json(data);
   } catch (error) {
     res.status(500).json({
       error: error.message,
