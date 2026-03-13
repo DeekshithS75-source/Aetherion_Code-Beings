@@ -1,14 +1,17 @@
 const express = require("express");
 const router = express.Router();
+const express = require("express");
+const router = express.Router();
 
+const vivaController = require("../controllers/vivaController");
 const {
   createViva,
   getOngoingVivas,
   getVivaBySubject,
   completeViva,
   deleteViva,
-} = require("../controllers/vivaController");
-
+} = vivaController;
+router.post("/generate-question", vivaController.generateQuestion);
 router.post("/create", createViva);
 
 router.post("/complete", completeViva);
